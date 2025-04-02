@@ -8,7 +8,11 @@ export default {
     ".flowbite-react/class-list.json"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+      },
+    },
   },
   plugins: [flowbiteReact],
 }

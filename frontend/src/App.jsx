@@ -6,28 +6,30 @@ function JobCard({ job }) {
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 mb-4 hover:shadow-xl transition-shadow">
       <div className="flex justify-between items-start">
-        <h4 className="text-xl font-semibold text-gray-800">{job.title}</h4>
-        <span className="bg-slate-100 text-slate-800 px-3 py-1 rounded-full text-sm">
+        <h4 className="text-xl font-light text-gray-800">{job.title}</h4>
+        <span className="bg-white text-slate-900 px-3 py-1 drop-shadow-md rounded-full text-sm font-light">
           {job.contract_time}
         </span>
       </div>
-      
-      <p className="text-gray-600 mt-2 font-medium">{job.company_name}</p>
-      
-      <p className="text-gray-700 mt-3 line-clamp-3 h-[4.5rem]">
-        {job.description}
+
+      <p className="text-gray-600 mt-2 font-medium">
+        {" "}
+        Company : {job.company_name}
       </p>
-      
-      <div className="mt-4 flex justify-between items-center">
+
+      <p className="text-gray-700 mt-3 h-[4.5rem]">
+        {job.description.length > 100
+          ? job.description.substring(0, 100) + "... "
+          : job.description}
         <a
           href={job.redirect_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-slate-500 text-white px-4 py-2 rounded hover:bg-slate-600 transition-colors"
+          className=" text-black bg-white underline "
         >
-          Apply Now
+        read more
         </a>
-      </div>
+      </p>
     </div>
   );
 }
@@ -72,7 +74,7 @@ function App() {
       if (Array.isArray(jobArrays)) {
         const allJobs = jobArrays.flat();
         console.log(allJobs);
-        
+
         setJobs(allJobs);
         setLoading(false);
         setCompleted(true);
@@ -86,11 +88,10 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto mb-8">
           <h1 className="text-3xl font-thin text-center mb-8">Look for jobs</h1>
-          
+
           <Input
             isUploaded={uploaded}
             handleFileChange={handleFileChange}
@@ -100,7 +101,7 @@ function App() {
 
           <div className="flex justify-center">
             <button
-              className="mt-6 w-52 h-12 rounded-lg bg-zinc-400 text-black hover:bg-zinc-600 hover:text-white transition-colors disabled:opacity-50"
+              className="mt-6 w-52 h-12 rounded-lg drop-shadow-lg bg-zinc-200 text-black hover:bg-zinc-600 hover:text-white transition-colors disabled:opacity-50"
               onClick={extractText}
               disabled={loading}
             >
@@ -114,7 +115,7 @@ function App() {
             <h2 className="text-2xl font-semibold mb-6 text-center">
               Matching Jobs
             </h2>
-            
+
             <div className="max-h-[600px] overflow-y-auto px-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {jobs.map((job, index) => (
