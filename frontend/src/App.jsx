@@ -2,12 +2,42 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Input } from "./components/Input";
 
+function JobCard({ job }) {
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6 mb-4 hover:shadow-xl transition-shadow">
+      <div className="flex justify-between items-start">
+        <h4 className="text-xl font-semibold text-gray-800">{job.title}</h4>
+        <span className="bg-slate-100 text-slate-800 px-3 py-1 rounded-full text-sm">
+          {job.contract_time}
+        </span>
+      </div>
+      
+      <p className="text-gray-600 mt-2 font-medium">{job.company_name}</p>
+      
+      <p className="text-gray-700 mt-3 line-clamp-3 h-[4.5rem]">
+        {job.description}
+      </p>
+      
+      <div className="mt-4 flex justify-between items-center">
+        <a
+          href={job.redirect_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-slate-500 text-white px-4 py-2 rounded hover:bg-slate-600 transition-colors"
+        >
+          Apply Now
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [file, setFile] = useState(null);
-  const [text, setText] = useState();
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [uploaded, setUploaded] = useState(false);
+  const [jobs, setJobs] = useState([]);
 
   function handleFileChange(event) {
     if (event.target.files.length > 0) {
@@ -17,7 +47,7 @@ function App() {
   }
 
   async function extractText() {
-    setUploaded(false)
+    setUploaded(false);
     setLoading(true);
     if (!file) {
       alert("Please select a PDF file first.");
@@ -36,38 +66,73 @@ function App() {
         }
       );
 
-      setText(response.data);
-      setLoading(false);
-      setCompleted(true);
+      const jobArrays = response.data.data;
+      console.log(jobArrays);
+
+      if (Array.isArray(jobArrays)) {
+        const allJobs = jobArrays.flat();
+        console.log(allJobs);
+        
+        setJobs(allJobs);
+        setLoading(false);
+        setCompleted(true);
+      } else {
+        console.error("Unexpected response format:", response.data);
+      }
     } catch (error) {
       console.error("Error extracting text:", error);
     }
   }
 
   return (
-    <>
-      <div className="grid place-content-center mx-auto w-screen h-screen">
-        <h1 className="mx-auto font-thin text-2xl">Look for jobs</h1>
-        <br />
-        <Input
-          isUploaded={uploaded}
-          handleFileChange={handleFileChange}
-          isCompleted={completed}
-          isLoading={loading}
-        />
+    <div className="min-h-screen bg-gray-50">
 
-        <button
-          className="m-4 h-12 w-52 grid place-content-center mx-auto rounded-lg drop-shadow-md border-solid border-2 bg-zinc-400 text-black hover:bg-zinc-600 hover:text-white"
-          onClick={extractText}
-        >
-          {loading ? "uploading" : "upload"}
-        </button>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto mb-8">
+          <h1 className="text-3xl font-thin text-center mb-8">Look for jobs</h1>
+          
+          <Input
+            isUploaded={uploaded}
+            handleFileChange={handleFileChange}
+            isCompleted={completed}
+            isLoading={loading}
+          />
 
-        <br />
+          <div className="flex justify-center">
+            <button
+              className="mt-6 w-52 h-12 rounded-lg bg-zinc-400 text-black hover:bg-zinc-600 hover:text-white transition-colors disabled:opacity-50"
+              onClick={extractText}
+              disabled={loading}
+            >
+              {loading ? "Processing..." : "Find Jobs"}
+            </button>
+          </div>
+        </div>
 
-        <p>{JSON.stringify(text)}</p>
+        {jobs.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-semibold mb-6 text-center">
+              Matching Jobs
+            </h2>
+            
+            <div className="max-h-[600px] overflow-y-auto px-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {jobs.map((job, index) => (
+                  <JobCard key={index} job={job} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* No Jobs Message */}
+        {!loading && jobs.length === 0 && completed && (
+          <div className="text-center text-gray-600 mt-8">
+            No matching jobs found. Try uploading a different resume.
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 
