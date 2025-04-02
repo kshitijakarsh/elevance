@@ -1,10 +1,14 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import { GoogleGenAI } from "@google/genai";
+import { GOOGLE_API_KEY, RAPIDAPI_KEY } from "../constants";
 
 const ai = new GoogleGenAI({
-  apiKey: "AIzaSyC5xgpjvRufP1v_w60-wHToWxlLLFg1NpM",
+  apiKey: GOOGLE_API_KEY
 });
+
+// console.log(GOOGLE_API_KEY);
+
 
 export default async function jobs(req: Request, res: Response): Promise<void> {
   try {
@@ -64,8 +68,7 @@ export default async function jobs(req: Request, res: Response): Promise<void> {
           date_posted: "all",
         },
         headers: {
-          "x-rapidapi-key":
-            "3210130567msh0702efca39f8998p12ec30jsnb2055c9b5803",
+          "x-rapidapi-key": RAPIDAPI_KEY,
           "x-rapidapi-host": "jsearch.p.rapidapi.com",
         },
       };
