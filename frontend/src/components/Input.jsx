@@ -7,10 +7,10 @@ export function Input({
   isLoading,
 }) {
   return (
-    <div className=" flex w-full items-center justify-center">
+    <div className=" flex drop-shadow-2xl w-full items-center justify-center">
       <Label
         htmlFor="dropzone-file"
-        className="flex h-64 w-96 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-400 hover:border-blue-800"
+        className="flex h-64 w-96 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-orange-200 hover:border"
       >
         <div className="flex flex-col items-center justify-center pb-6 pt-5">
           {isUploaded ? (

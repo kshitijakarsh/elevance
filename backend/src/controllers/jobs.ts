@@ -15,7 +15,6 @@ const searchJobs = async (job: string) => {
   try {
     const response = await axios.get(url);
     const jobs = response.data?.results || [];
-    
 
     return jobs.map((job: any) => ({
       title: job.title,
@@ -37,6 +36,10 @@ const searchJobs = async (job: string) => {
 export default async function jobs(req: Request, res: Response): Promise<void> {
   try {
     const extractedText: string | undefined = (req as any).extractedText;
+    if (typeof window !== "undefined" && extractedText) {
+      localStorage.setItem("resumeText", extractedText);
+    }
+
     if (!extractedText) {
       res.status(400).json({ error: "No extracted text provided" });
       return;
@@ -84,7 +87,11 @@ export default async function jobs(req: Request, res: Response): Promise<void> {
       job_profiles.map((job) => searchJobs(job))
     );
 
-    res.status(200).json({ success: true, data: jobResults.filter(Boolean) });
+    res.status(200).json({
+      success: true,
+      data: jobResults.filter(Boolean),
+      resumeText: extractedText, // 👈 add this
+    });
   } catch (error) {
     console.error("Error processing jobs:", error);
     res.status(500).json({ error: "Failed to process jobs" });

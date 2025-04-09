@@ -66,9 +66,13 @@ function Home() {
           headers: { "Content-Type": "application/pdf" },
         }
       );
-
+      
       const jobArrays = response.data.data;
-      console.log(jobArrays);
+      const resumeText = response.data.resumeText;
+
+      if (resumeText) {
+        localStorage.setItem("resumeText", resumeText);
+      }
 
       if (Array.isArray(jobArrays)) {
         const allJobs = jobArrays.flat();
