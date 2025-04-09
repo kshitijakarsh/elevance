@@ -7,8 +7,6 @@ const ai = new GoogleGenAI({
   apiKey: GOOGLE_API_KEY,
 });
 
-console.log("Using Adzuna Credentials:", ADZUNA_APP_ID, ADZUNA_KEY);
-
 const searchJobs = async (job: string) => {
   const url = `http://api.adzuna.com/v1/api/jobs/in/search/1?app_id=${ADZUNA_APP_ID}&app_key=${ADZUNA_KEY}&results_per_page=20&what=javascript%20${job}&content-type=application/json`;
 

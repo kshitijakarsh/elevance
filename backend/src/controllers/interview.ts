@@ -2,84 +2,56 @@ import { GoogleGenAI } from "@google/genai";
 import { GOOGLE_API_KEY } from "../constants";
 import type { Request, Response } from "express";
 
-const ai = new GoogleGenAI({
-  apiKey: GOOGLE_API_KEY,
-});
+const ai = new GoogleGenAI({ apiKey: GOOGLE_API_KEY });
 
 export default async function interview(
   req: Request,
   res: Response
 ): Promise<any> {
   try {
-    const { resumeText, transcript, previousInteraction = [], latestQuestion, latestAnswer } = req.body;
+    const { resumeText, transcript } = req.body;
 
-    if (!resumeText || !transcript || !latestQuestion || !latestAnswer) {
-      return res.status(400).json({ error: "Missing required fields" });
+    if (!resumeText || !transcript) {
+      return res.status(400).json({ error: "Missing resume or transcript" });
     }
 
-    const interactionFormatted = previousInteraction
-      .map(
-        (entry: { question: string; answer: string }) =>
-          `Q: ${entry.question}\nA: ${entry.answer}`
-      )
-      .join("\n");
-
     const prompt = `
-You are a professional technical interviewer for a leading company.
+You are a professional technical interviewer at a top-tier company.
 
-You have the full resume of the candidate, and you're conducting an intelligent, adaptive interview.
+You are conducting a real-time, intelligent interview based on the candidate's resume and their most recent spoken answer.
 
-Use the resume and previous responses to:
-- Ask one highly relevant, thoughtful interview question at a time.
-- Evaluate the candidate’s previous answers for depth, correctness, and quality.
-- Adapt your next question based on their answers.
-- Push deeper if the previous answer was vague or weak.
-- Praise strong answers briefly, but stay formal and focused.
+Your task:
+- Start with a brief, natural-sounding, human affirmation of the candidate's latest response. Do NOT use robotic or generic one-word phrases like "Understood" or "Alright".
+- Then, based on the resume and this answer, ask the most contextually relevant, technically challenging follow-up question.
+- Avoid repeating any previous questions.
+- Keep the tone conversational but professional.
+- Do not evaluate or explain anything.
+- Do not include any formatting, section headers, or labels.
 
----
-
-📄 Resume:
+Resume:
 """
 ${resumeText}
 """
 
-🧠 Interview so far:
-${interactionFormatted || "(None so far)"}
+Latest Answer:
+"""
+${transcript}
+"""
 
----
+Your response:
 
-💬 Latest Answer to Evaluate:
-Q: ${latestQuestion}
-A: ${latestAnswer}
 
----
-
-🆕 Your task:
-1. Evaluate the candidate’s **most recent answer**.
-2. Generate the next smart, context-aware interview question.
-3. Justify why you asked it.
-
-📤 Respond in this format:
-
-Evaluation:
-[Brief evaluation of the answer]
-
-Next Question:
-[Smart adaptive follow-up question]
-
-Reason:
-[Why this question was asked]
     `;
 
     const aiResponse = await ai.models.generateContent({
-      model: "gemini-pro",
+      model: "gemini-2.0-flash",
       contents: [{ role: "user", parts: [{ text: prompt }] }],
     });
 
-    const responseText = aiResponse.text
+    const responseText = aiResponse.text;
 
     if (!responseText) {
-      throw new Error("No response text received from Gemini");
+      throw new Error("No response text from Gemini.");
     }
 
     res.status(200).json({ success: true, result: responseText });
