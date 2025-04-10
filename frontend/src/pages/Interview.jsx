@@ -29,7 +29,7 @@ function Interview() {
       utterance.voice = preferredVoice;
     }
 
-    window.speechSynthesis.cancel(); // Cancel any previous speech
+    window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   };
 
@@ -42,7 +42,7 @@ function Interview() {
     };
 
     window.speechSynthesis.onvoiceschanged = loadVoices;
-    loadVoices(); // call it immediately in case voices are already loaded
+    loadVoices();
   }, []);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function Interview() {
       const sendToBackend = async () => {
         setQuestion("");
         try {
-          const response = await axios.post("http://localhost:3000/interview", {
+          const response = await axios.post("http://localhost:3000/interview/behavioral", {
             resumeText,
             transcript,
           });
@@ -78,7 +78,7 @@ function Interview() {
         setRecording={setRecording}
       />
 
-      <div className="mt-6 ml-6 bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-purple-500 max-w-2xl">
+      <div className="mt-6 ml-6 bg-[#1a1a1a] p-6 rounded-xl shadow-lg max-w-xl">
         <p className="font-semibold text-purple-400 mb-2">AI:</p>
         <p className="text-gray-200">{question}</p>
       </div>

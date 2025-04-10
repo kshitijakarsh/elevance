@@ -1,11 +1,13 @@
-import { GoogleGenAI } from "@google/genai";
-import { GOOGLE_API_KEY } from "../constants";
-import type { Request, Response } from "express";
+import type { Response } from "express";
+import type { GoogleGenAI } from "@google/genai";
+import type { Request } from "express";
 
-const ai = new GoogleGenAI({ apiKey: GOOGLE_API_KEY });
+interface GenAIRequest extends Request {
+  genai?: GoogleGenAI["models"];
+}
 
-export default async function interview(
-  req: Request,
+export default async function Screening(
+  req: GenAIRequest,
   res: Response
 ): Promise<any> {
   try {
@@ -13,6 +15,10 @@ export default async function interview(
 
     if (!resumeText || !transcript) {
       return res.status(400).json({ error: "Missing resume or transcript" });
+    }
+
+    if (!req.genai) {
+      return res.status(500).json({ error: "GenAI model not initialized" });
     }
 
     const prompt = `
@@ -39,22 +45,20 @@ ${transcript}
 """
 
 Your response:
-
-
     `;
 
-    const aiResponse = await ai.models.generateContent({
+    const aiResponse = await req.genai.generateContent({
       model: "gemini-2.0-flash",
       contents: [{ role: "user", parts: [{ text: prompt }] }],
     });
 
-    const responseText = aiResponse.text;
+    const text = await aiResponse.text;
 
-    if (!responseText) {
+    if (!text) {
       throw new Error("No response text from Gemini.");
     }
 
-    res.status(200).json({ success: true, result: responseText });
+    res.status(200).json({ success: true, result: text });
   } catch (error) {
     console.error("Interview handler error:", error);
     res.status(500).json({ error: "Internal Server Error" });
