@@ -2,7 +2,7 @@ import Stt from "../components/Stt";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-function Interview() {
+function Pro() {
   const [transcript, setTranscript] = useState("");
   const [recording, setRecording] = useState(false);
   const [aiResponse, setAiResponse] = useState("");
@@ -50,7 +50,7 @@ function Interview() {
       const sendToBackend = async () => {
         setQuestion("");
         try {
-          const response = await axios.post("http://localhost:3000/interview/behavioral", {
+          const response = await axios.post("http://localhost:3000/interview/pro", {
             resumeText,
             transcript,
           });
@@ -86,4 +86,4 @@ function Interview() {
   );
 }
 
-export default Interview;
+export default Pro;

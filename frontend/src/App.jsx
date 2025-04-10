@@ -1,18 +1,28 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Interview from "./pages/Interview";
+import { Routes, Route } from "react-router-dom";
 import Layout from "./layout";
-import Jobs from "./pages/Jobs";
+
+// Pages
 import Home from "./pages/Home";
+import Jobs from "./pages/Jobs";
+import Behavioral from "./pages/Behavioral";
+import Fin from "./pages/Fin"
+import Pro from "./pages/Pro"
+import Tech from './pages/Tech'
+import Sys from "./pages/Sys";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="jobs" element={<Jobs/>}/>
-        <Route path="interview/behavioral" element={<Interview />} />
+        <Route path="jobs" element={<Jobs />} />
 
+        <Route path="interview/behavioral" element={<Behavioral />} />
+        <Route path="interview/final" element={<Fin/>} />
+        <Route path="interview/project" element={<Pro />} />
+        <Route path="interview/technical" element={<Tech />} />
+        <Route path="interview/system" element={<Sys />} />
       </Route>
     </Routes>
   );
