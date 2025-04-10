@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
@@ -10,6 +10,13 @@ function Home() {
   const [interviewOptionsVisible, setInterviewOptionsVisible] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const resumeText = localStorage.getItem("resumeText");
+    if (resumeText) {
+      setInterviewOptionsVisible(true);
+    }
+  }, []);
 
   function handleFileChange(event) {
     if (event.target.files.length > 0) {
@@ -30,13 +37,9 @@ function Home() {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/submit",
-        formData,
-        {
-          headers: { "Content-Type": "application/pdf" },
-        }
-      );
+      const response = await axios.post("http://localhost:3000/submit", formData, {
+        headers: { "Content-Type": "application/pdf" },
+      });
 
       const resumeText = response.data.resumeText;
       const jobArrays = response.data.data;
@@ -58,7 +61,13 @@ function Home() {
     }
   }
 
-  // redirect function
+  const handleReset = () => {
+    localStorage.clear();
+    setInterviewOptionsVisible(false);
+    setUploaded(false);
+    setFile(null);
+  };
+
   const goToInterview = (type) => {
     navigate(`/interview/${type}`);
   };
@@ -71,34 +80,37 @@ function Home() {
             Upload Your Resume
           </h1>
 
-          <Input
-            isUploaded={uploaded}
-            handleFileChange={handleFileChange}
-            isCompleted={false}
-            isLoading={loading}
-          />
+          {!interviewOptionsVisible && (
+            <>
+              <Input
+                isUploaded={uploaded}
+                handleFileChange={handleFileChange}
+                isCompleted={false}
+                isLoading={loading}
+              />
 
-          <div className="flex justify-center">
-            <button
-              className="mt-6 w-52 h-12 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-400 hover:to-purple-600 shadow-lg hover:shadow-purple-700 transition-colors disabled:opacity-50"
-              onClick={handleResumeUpload}
-              disabled={loading}
-            >
-              {loading ? "Processing..." : "Upload Resume"}
-            </button>
-          </div>
+              <div className="flex justify-center">
+                <button
+                  className="mt-6 w-52 h-12 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-400 hover:to-purple-600 shadow-lg hover:shadow-purple-700 transition-colors disabled:opacity-50"
+                  onClick={handleResumeUpload}
+                  disabled={loading}
+                >
+                  {loading ? "Processing..." : "Upload Resume"}
+                </button>
+              </div>
+            </>
+          )}
 
-          {/* Interview Type Redirect Buttons */}
           {interviewOptionsVisible && (
             <div className="mt-10 text-center">
               <h2 className="text-xl text-white mb-4">Choose Interview Type:</h2>
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-wrap justify-center gap-4 mb-6">
                 {[
                   { label: "Technical", path: "technical" },
                   { label: "HR", path: "hr" },
                   { label: "Behavioral", path: "behavioral" },
                   { label: "System Design", path: "system-design" },
-                  { label: "Coding", path: "coding" },
+                  { label: "Coding", path: "dsa" }, 
                 ].map(({ label, path }) => (
                   <button
                     key={path}
@@ -109,6 +121,13 @@ function Home() {
                   </button>
                 ))}
               </div>
+
+              <button
+                onClick={handleReset}
+                className="mt-4 px-6 py-2 border border-white text-white rounded-lg hover:bg-white hover:text-black transition"
+              >
+                Reset & Upload Again
+              </button>
             </div>
           )}
         </div>

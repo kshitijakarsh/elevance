@@ -10,6 +10,7 @@ import Fin from "./pages/Fin"
 import Pro from "./pages/Pro"
 import Tech from './pages/Tech'
 import Sys from "./pages/Sys";
+import Dsa from "./pages/dsa";
 
 function App() {
   return (
@@ -18,7 +19,10 @@ function App() {
         <Route index element={<Home />} />
         <Route path="jobs" element={<Jobs />} />
 
+
+
         <Route path="interview/behavioral" element={<Behavioral />} />
+        <Route path="interview/dsa" element={<Dsa/>} />
         <Route path="interview/final" element={<Fin/>} />
         <Route path="interview/project" element={<Pro />} />
         <Route path="interview/technical" element={<Tech />} />
