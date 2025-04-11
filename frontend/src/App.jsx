@@ -10,7 +10,7 @@ import Fin from "./pages/Fin"
 import Pro from "./pages/Pro"
 import Tech from './pages/Tech'
 import Sys from "./pages/Sys";
-import Dsa from "./pages/dsa";
+import Dsa from "./pages/Dsa";
 
 function App() {
   return (

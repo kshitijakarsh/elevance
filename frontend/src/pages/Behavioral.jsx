@@ -50,7 +50,7 @@ function Behavioral() {
       const sendToBackend = async () => {
         setQuestion("");
         try {
-          const response = await axios.post("http://localhost:3000/interview/behavioral", {
+          const response = await axios.post("https://elevance.onrender.com/interview/behavioral", {
             resumeText,
             transcript,
           });

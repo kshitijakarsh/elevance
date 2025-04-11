@@ -15,7 +15,7 @@ function Dsa() {
   const fetchQuestion = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:3000/interview/dsa", {
+      const response = await axios.post("https://elevance.onrender.com/interview/dsa", {
         resumeText,
       });
       setQuestion(response.data.result);
@@ -35,7 +35,7 @@ function Dsa() {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/interview/eval",
+        "https://elevance.onrender.com/interview/eval",
         {
           question,
           answer: code,

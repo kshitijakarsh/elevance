@@ -51,7 +51,7 @@ function Fin() {
         setQuestion("");
         try {
           const response = await axios.post(
-            "http://localhost:3000/interview/fin",
+            "https://elevance.onrender.com/interview/fin",
             {
               resumeText,
               transcript,

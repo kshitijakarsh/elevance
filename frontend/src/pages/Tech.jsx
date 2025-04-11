@@ -50,7 +50,7 @@ function Tech() {
       const sendToBackend = async () => {
         setQuestion("");
         try {
-          const response = await axios.post("http://localhost:3000/interview/tech", {
+          const response = await axios.post("https://elevance.onrender.com/interview/tech", {
             resumeText,
             transcript,
           });
