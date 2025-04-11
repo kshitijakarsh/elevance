@@ -9,28 +9,45 @@ function Dsa() {
   const [code, setCode] = useState("// Start coding here...");
   const [language, setLanguage] = useState("javascript");
   const resumeText = localStorage.getItem("resumeText");
+  const [evaluation, setEvaluation] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const fetchQuestion = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post("http://localhost:3000/interview/dsa", {
+        resumeText,
+      });
+      setQuestion(response.data.result);
+      setCode("// Start coding here...");
+      setEvaluation("");
+    } catch (err) {
+      console.error("Error fetching DSA question:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchQuestion = async () => {
-      try {
-        const response = await axios.post("http://localhost:3000/interview/dsa", {
-          resumeText,
-        });
-        setQuestion(response.data.result);
-      } catch (err) {
-        console.error("Error fetching DSA question:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchQuestion();
   }, []);
 
-  const handleSubmit = () => {
-    console.log("Language:", language);
-    console.log("Code submitted:", code);
-    // TODO: Send code + language to backend for evaluation
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/interview/eval",
+        {
+          question,
+          answer: code,
+          resumeText,
+        }
+      );
+
+      setEvaluation(response.data.result);
+      setShowModal(true);
+    } catch (error) {
+      console.error("Error submitting code:", error);
+    }
   };
 
   const supportedLanguages = [
@@ -45,7 +62,10 @@ function Dsa() {
     return (
       <div className="flex items-center justify-center min-h-screen bg-black text-white">
         <div className="text-center">
-          <LoaderCircle className="animate-spin text-purple-400 mx-auto" size={48} />
+          <LoaderCircle
+            className="animate-spin text-purple-400 mx-auto"
+            size={48}
+          />
           <p className="mt-4 text-gray-400">Generating your DSA challenge...</p>
         </div>
       </div>
@@ -53,18 +73,17 @@ function Dsa() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#0e0e0e] text-white">
-      {/* Left - Question Section */}
+    <div className="flex h-screen overflow-hidden bg-[#0e0e0e] text-white relative">
       <div className="w-1/2 p-6 overflow-y-auto bg-[#1e1e1e] border-r border-gray-700">
-        <h1 className="text-2xl font-bold text-purple-400 mb-4">1. DSA Challenge</h1>
+        <h1 className="text-2xl font-bold text-purple-400 mb-4">
+          1. DSA Challenge
+        </h1>
         <div className="prose prose-invert max-w-none whitespace-pre-wrap text-gray-300">
           {question}
         </div>
       </div>
 
-      {/* Right - Code Editor Section */}
       <div className="w-1/2 flex flex-col">
-        {/* Header with language selector */}
         <div className="p-4 bg-[#1e1e1e] border-b border-gray-700 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-white">Code</h2>
           <select
@@ -85,7 +104,7 @@ function Dsa() {
           language={language}
           theme="vs-dark"
           value={code}
-          onChange={(value) => setCode(value)}
+          onChange={(value) => setCode(value || "")}
           options={{
             fontSize: 14,
             minimap: { enabled: false },
@@ -102,6 +121,30 @@ function Dsa() {
           </button>
         </div>
       </div>
+
+      {showModal && (
+        <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#1e1e1e] border border-gray-700 rounded-xl shadow-xl max-w-2xl w-full flex flex-col max-h-[80vh]">
+            <div className="p-6 overflow-y-auto text-gray-300 flex-1">
+              <h2 className="text-xl font-bold text-purple-400 mb-4">
+                Evaluation
+              </h2>
+              <pre className="whitespace-pre-wrap">{evaluation}</pre>
+            </div>
+            <div className="p-4 border-t border-gray-700 flex justify-end bg-[#1e1e1e]">
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  fetchQuestion();
+                }}
+                className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-5 rounded-lg"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

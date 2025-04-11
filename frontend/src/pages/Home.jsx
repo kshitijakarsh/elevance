@@ -37,9 +37,13 @@ function Home() {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("http://localhost:3000/submit", formData, {
-        headers: { "Content-Type": "application/pdf" },
-      });
+      const response = await axios.post(
+        "http://localhost:3000/submit",
+        formData,
+        {
+          headers: { "Content-Type": "application/pdf" },
+        }
+      );
 
       const resumeText = response.data.resumeText;
       const jobArrays = response.data.data;
@@ -103,14 +107,17 @@ function Home() {
 
           {interviewOptionsVisible && (
             <div className="mt-10 text-center">
-              <h2 className="text-xl text-white mb-4">Choose Interview Type:</h2>
+              <h2 className="text-xl text-white mb-4">
+                Choose Interview Type:
+              </h2>
               <div className="flex flex-wrap justify-center gap-4 mb-6">
                 {[
-                  { label: "Technical", path: "technical" },
-                  { label: "HR", path: "hr" },
                   { label: "Behavioral", path: "behavioral" },
-                  { label: "System Design", path: "system-design" },
-                  { label: "Coding", path: "dsa" }, 
+                  { label: "DSA / Coding", path: "dsa" },
+                  { label: "Final Round", path: "final" },
+                  { label: "Project Discussion", path: "project" },
+                  { label: "System Design", path: "system" },
+                  { label: "Technical Round", path: "technical" },
                 ].map(({ label, path }) => (
                   <button
                     key={path}

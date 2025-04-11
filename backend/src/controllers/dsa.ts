@@ -1,4 +1,3 @@
-// src/controllers/dsaInterview.ts
 import { GoogleGenAI } from "@google/genai";
 import type { Request, Response } from "express";
 import { GOOGLE_API_KEY } from "../constants";
@@ -23,7 +22,7 @@ You have access to the candidate's resume and their latest answer in the intervi
 
 Your goal:
 - Based on the resume and the candidate’s latest response, generate a relevant **coding problem**.
-- The question should be a **DSA-style problem** that tests the candidate's problem-solving skills.
+- The question should be a **Data Structutres and Algorithm-style problem** that tests the candidate's problem-solving skills.
 - It should be real-world and non-trivial, suitable for mid-to-advanced level.
 - Provide **only the question description**, with constraints and example input/output if relevant.
 - Do NOT explain the solution or give the answer.
