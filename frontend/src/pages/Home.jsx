@@ -3,8 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
 
-import toast, { Toaster } from 'react-hot-toast';
-
+import toast, { Toaster } from "react-hot-toast";
 
 function Home() {
   const [file, setFile] = useState(null);
@@ -12,8 +11,7 @@ function Home() {
   const [uploaded, setUploaded] = useState(false);
   const [interviewOptionsVisible, setInterviewOptionsVisible] = useState(false);
 
-  const notify = () => toast('Please upload resume first.');
-
+  const notify = () => toast("Please upload resume first.");
 
   const navigate = useNavigate();
 
@@ -36,7 +34,6 @@ function Home() {
       toast.error("Please select PDF first.");
       return;
     }
-    toast.success("Resume Uploaded Successfully")
     setLoading(true);
 
     const formData = new FormData();
@@ -63,6 +60,7 @@ function Home() {
         localStorage.setItem("matchedJobs", JSON.stringify(allJobs));
       }
 
+      setLoading(false);
       setInterviewOptionsVisible(true);
     } catch (error) {
       console.error("Error uploading resume:", error);
@@ -86,13 +84,17 @@ function Home() {
     <div className="min-h-screen bg-black">
       <div className="container mx-auto px-4 py-8">
         <div className="mt-20 max-w-2xl mx-auto mb-8">
-          {!loading && (
+          {!loading ? (
             <h1 className="text-3xl font-special font-thin text-center text-[#EBEBBA] mb-8">
               {interviewOptionsVisible
                 ? "Choose Interview Type"
                 : uploaded
                 ? "Resume Loaded"
                 : "Upload Your Resume"}
+            </h1>
+          ) : (
+            <h1 className="text-3xl font-special font-thin text-center text-[#EBEBBA] mb-8">
+              Loading ...
             </h1>
           )}
 
@@ -113,7 +115,7 @@ function Home() {
                 >
                   {loading ? "Processing..." : "Upload Resume"}
                 </button>
-                <Toaster/>
+                <Toaster />
               </div>
             </>
           )}
@@ -143,7 +145,7 @@ function Home() {
                 onClick={handleReset}
                 className="mt-4 px-6 py-2 border font-special border-white text-white rounded-lg hover:bg-white hover:text-black transition"
               >
-                Reset & Upload Again
+                New Resume
               </button>
             </div>
           )}

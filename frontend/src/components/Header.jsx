@@ -9,13 +9,11 @@ const Header = () => {
   return (
     <nav className="w-full bg-black shadow-md px-8 py-4">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo */}
         <Link to="/" className="flex items-center space-x-3">
           <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />
           <span className="text-xl font-special text-white">Elevance</span>
         </Link>
 
-        {/* Desktop Navigation */}
         <ul className="hidden md:flex items-center space-x-10">
           <li>
             <Link
@@ -38,7 +36,6 @@ const Header = () => {
           </li>
         </ul>
 
-        {/* Mobile Menu Toggle */}
         <div className="md:hidden">
           <button onClick={() => setOpen(!open)} className="text-white">
             {open ? <X size={24} /> : <Menu size={24} />}
@@ -46,7 +43,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
       {open && (
         <div className="md:hidden mt-4 px-4 space-y-3 bg-black">
           <Link

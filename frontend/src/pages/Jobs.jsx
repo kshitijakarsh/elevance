@@ -1,62 +1,107 @@
 import React, { useEffect, useState } from "react";
 
 function JobCard({ job }) {
+
+  function formatContractTime(str) {
+    if (!str) return "";
+    return str
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
+  
   return (
-    <div className="bg-black border border-purple-600 rounded-lg p-6 mb-4 shadow-lg hover:shadow-purple-700 transition-shadow">
-      <div className="flex justify-between items-start">
-        <h4 className="text-xl font-light text-white">{job.title}</h4>
-        <span className="bg-purple-100 text-purple-900 px-3 py-1 rounded-full text-sm font-light shadow-md">
-          {job.contract_time}
+    <div className="bg-black border border-gray-800 rounded-lg p-6 transition-all duration-300 hover:border-[#EBEBBA] hover:shadow-md">
+      <div className="flex justify-between items-start mb-3">
+        <h3 className="text-[#EBEBBA] text-lg font-medium">{job.company_name}</h3>
+        <span className="text-xs text-gray-400 bg-gray-900 px-2 py-1 rounded-full">New</span>
+      </div>
+      
+      <h2 className="text-white text-xl font-bold mb-3">{job.title}</h2>
+      
+      {/* Duration Badge */}
+      <div className="inline-block bg-gray-900 border border-gray-700 rounded-md px-3 py-1 mb-3">
+        <span className="text-[#EBEBBA] text-xs font-medium flex items-center">
+          <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          {formatContractTime(job.contract_time)}
         </span>
       </div>
-      <p className="text-purple-300 mt-2 font-medium">
-        Company: {job.company_name}
-      </p>
-      <p className="text-gray-300 mt-3 h-[4.5rem]">
-        {job.description.length > 100
-          ? job.description.substring(0, 100) + "... "
+      
+      <p className="text-gray-400 text-sm mb-4 h-16 overflow-hidden">
+        {job.description.length > 120
+          ? job.description.substring(0, 120) + "..."
           : job.description}
+      </p>
+      
+      <div className="flex justify-end">
         <a
           href={job.redirect_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-purple-400 underline hover:text-purple-200"
+          className="text-[#EBEBBA] text-sm font-medium transition-colors duration-200 hover:text-white flex items-center"
         >
-          read more
+          View Details
+          <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
         </a>
-      </p>
+      </div>
     </div>
   );
 }
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedJobs = localStorage.getItem("matchedJobs");
     if (storedJobs) {
       setJobs(JSON.parse(storedJobs));
     }
+    setLoading(false);
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="animate-pulse text-[#EBEBBA] text-xl">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black">
-      <div className="container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-light text-center text-white mb-8">
-          Matching Jobs
-        </h2>
-
+      <div className="max-w-7xl mx-auto px-4 py-12">
         {jobs.length > 0 ? (
-          <div className="max-h-[600px] overflow-y-auto px-4">
+          <>
+            <div className="mb-12">
+              <h1 className="text-4xl font-bold text-[#EBEBBA] text-center">
+                Matching Jobs
+              </h1>
+              <p className="text-gray-400 text-center mt-2">
+                We found {jobs.length} opportunities that match your profile
+              </p>
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {jobs.map((job, index) => (
                 <JobCard key={index} job={job} />
               ))}
             </div>
-          </div>
+          </>
         ) : (
-          <div className="text-center text-gray-400 mt-8">
-            No matching jobs found. Try uploading a different resume.
+          <div className="flex flex-col items-center justify-center h-64 border border-gray-800 rounded-lg p-8">
+            <svg className="w-16 h-16 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <h2 className="text-[#EBEBBA] text-2xl font-bold mb-2">No Jobs Found</h2>
+            <p className="text-gray-400 text-center mb-4">Upload your resume to find matching opportunities</p>
+            <button className="bg-[#EBEBBA] text-black font-medium px-6 py-3 rounded-lg hover:bg-white transition-colors duration-200">
+              Upload Resume
+            </button>
           </div>
         )}
       </div>
