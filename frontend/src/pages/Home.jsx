@@ -31,7 +31,14 @@ function Home() {
 
   async function handleResumeUpload() {
     if (!uploaded) {
-      toast.error("Please select PDF first.");
+      toast.error("Please select PDF first.", {
+        style: {
+          background: "#000000",
+          color: "white",
+          borderRadius: "10px",
+          border: "1px solid #374151",
+        },
+      });
       return;
     }
     setLoading(true);
