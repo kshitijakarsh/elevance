@@ -93,7 +93,7 @@ function Home() {
                 : "Upload Your Resume"}
             </h1>
           ) : (
-            <h1 className="text-3xl font-special font-thin text-center text-[#EBEBBA] mb-8">
+            <h1 className="text-3xl font-special font-thin text-center text-[#EBEBBA] mb-8 animate-bounce">
               Loading ...
             </h1>
           )}
@@ -109,7 +109,7 @@ function Home() {
 
               <div className="flex justify-center">
                 <button
-                  className="mt-6 w-52 h-12 rounded-lg font-special text-white border-solid border-2 border-[#FFF8C6] shadow-lg hover:bg-[#FFF8C6] hover:text-black"
+                  className="mt-6 w-52 h-12 rounded-lg font-special text-white border-solid border-2 border-gray-800 shadow-lg hover:border-[#EBEBBA]"
                   onClick={handleResumeUpload}
                   disabled={loading}
                 >
@@ -133,7 +133,7 @@ function Home() {
                 ].map(({ label, path }) => (
                   <button
                     key={path}
-                    className="mt-6 w-52 h-12 rounded-lg text-white border-solid border-2 border-[#FFF8C6] shadow-lg hover:bg-[#FFF8C6] hover:text-black"
+                    className="mt-6 w-52 h-12 rounded-lg text-white border-solid border border-gray-800 shadow-lg hover:border-[#FFF8C6]"
                     onClick={() => goToInterview(path)}
                   >
                     {label}
@@ -143,7 +143,7 @@ function Home() {
 
               <button
                 onClick={handleReset}
-                className="mt-4 px-6 py-2 border font-special border-white text-white rounded-lg hover:bg-white hover:text-black transition"
+                className="mt-4 px-6 py-2 border font-special border-gray-800 text-white rounded-lg hover:border-[#FFF8C6] hover:text-white"
               >
                 New Resume
               </button>
