@@ -57,6 +57,7 @@ function Home() {
         localStorage.setItem("matchedJobs", JSON.stringify(allJobs));
       }
 
+      setUploaded(true);
       setInterviewOptionsVisible(true);
     } catch (error) {
       console.error("Error uploading resume:", error);
@@ -79,10 +80,12 @@ function Home() {
   return (
     <div className="min-h-screen bg-black">
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto mb-8">
-          <h1 className="text-3xl font-thin text-center text-white mb-8">
-            Upload Your Resume
-          </h1>
+        <div className="mt-20 max-w-2xl mx-auto mb-8">
+          {!loading && (
+            <h1 className="text-3xl font-special font-thin text-center text-[#EBEBBA] mb-8">
+              {uploaded ? "Resume Uploaded" : "Upload Your Resume"}
+            </h1>
+          )}
 
           {!interviewOptionsVisible && (
             <>
@@ -95,7 +98,7 @@ function Home() {
 
               <div className="flex justify-center">
                 <button
-                  className="mt-6 w-52 h-12 rounded-lg bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-400 hover:to-purple-600 shadow-lg hover:shadow-purple-700 transition-colors disabled:opacity-50"
+                  className="mt-6 w-52 h-12 rounded-lg font-special text-white border-solid border-2 border-[#FFF8C6] shadow-lg hover:bg-[#FFF8C6] hover:text-black"
                   onClick={handleResumeUpload}
                   disabled={loading}
                 >
@@ -107,10 +110,10 @@ function Home() {
 
           {interviewOptionsVisible && (
             <div className="mt-10 text-center">
-              <h2 className="text-xl text-white mb-4">
-                Choose Interview Type:
+              <h2 className="text-xl font-poppins text-white mb-4">
+                Choose Interview Type :
               </h2>
-              <div className="flex flex-wrap justify-center gap-4 mb-6">
+              <div className="flex font-poppins flex-wrap justify-center gap-4 mb-6">
                 {[
                   { label: "Behavioral", path: "behavioral" },
                   { label: "DSA / Coding", path: "dsa" },
@@ -121,7 +124,7 @@ function Home() {
                 ].map(({ label, path }) => (
                   <button
                     key={path}
-                    className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                    className="mt-6 w-52 h-12 rounded-lg text-white border-solid border-2 border-[#FFF8C6] shadow-lg hover:bg-[#FFF8C6] hover:text-black"
                     onClick={() => goToInterview(path)}
                   >
                     {label}
@@ -131,7 +134,7 @@ function Home() {
 
               <button
                 onClick={handleReset}
-                className="mt-4 px-6 py-2 border border-white text-white rounded-lg hover:bg-white hover:text-black transition"
+                className="mt-4 px-6 py-2 border font-special border-white text-white rounded-lg hover:bg-white hover:text-black transition"
               >
                 Reset & Upload Again
               </button>

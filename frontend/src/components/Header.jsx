@@ -10,27 +10,27 @@ const Header = () => {
 
         <Link to="/" className="flex items-center space-x-3">
           <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />
-          <span className="text-xl font-semibold text-white">Elevance</span>
+          <span className="text-xl font-special text-white">Elevance</span>
         </Link>
 
         <ul className="flex items-center space-x-10">
           <li>
             <Link
               to="/"
-              className="flex items-center text-gray-300 hover:text-purple-400 transition-colors duration-200 space-x-2"
+              className="flex items-center text-[#EBEBBA] hover:text-white transition-colors duration-200 space-x-2"
             >
               <Home size={20} />
-              <span className="text-sm font-medium">Home</span>
+              <span className="text-sm font-special">Home</span>
             </Link>
           </li>
 
           <li>
             <Link
               to="/jobs"
-              className="flex items-center text-gray-300 hover:text-purple-400 transition-colors duration-200 space-x-2"
+              className="flex items-center text-[#EBEBBA] hover:text-white transition-colors duration-200 space-x-2"
             >
               <Briefcase size={20} />
-              <span className="text-sm font-medium">Jobs</span>
+              <span className="text-sm font-special">Jobs</span>
             </Link>
           </li>
         </ul>

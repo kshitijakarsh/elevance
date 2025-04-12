@@ -11,6 +11,11 @@ export default {
     extend: {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
+        special: ['"Special Gothic Expanded One"', 'sans-serif'],
+      },
+      colors: {
+        limey: '#F3FF8C',
+        deepPurple: '#5D00B5', 
       },
     },
   },

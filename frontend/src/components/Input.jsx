@@ -10,7 +10,7 @@ export function Input({
     <div className="flex w-full items-center justify-center p-4">
       <Label
         htmlFor="dropzone-file"
-        className="group flex h-64 w-96 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-orange-300 bg-white shadow-lg transition-all hover:border-orange-400 hover:bg-orange-50 hover:shadow-xl dark:bg-gray-800 dark:hover:bg-gray-700"
+        className="group flex h-64 w-96 cursor-pointer flex-col items-center justify-center rounded-2xl shadow-lg transition-all hover:bg-orange-50 hover:shadow-xl dark:bg-gray-800 dark:hover:bg-gray-700"
       >
         <div className="flex flex-col items-center justify-center p-4 transition-all duration-300 ease-in-out">
           {isUploaded ? (
@@ -22,7 +22,7 @@ export function Input({
                 fill="none"
                 viewBox="0 0 128 128"
                 id="check-task"
-                className="mb-4 text-green-500"
+                className="mb-4 text[#FFF8C6"
               >
                 <path
                   stroke="currentColor"
@@ -41,7 +41,7 @@ export function Input({
                   d="M52 69.9582C54.6047 72.4561 59.9256 77.5588 60.3721 77.987C60.8186 78.4152 70.9767 68.1741 76 63"
                 ></path>
               </svg>
-              <p className="text-base font-medium text-green-700 dark:text-green-300">
+              <p className="text-base font-medium text-[#FFF8C6] dark:text-[#FFF8C6]">
                 File Uploaded!
               </p>
             </>
@@ -71,7 +71,7 @@ export function Input({
                   d="M21.293,32.707l-8-8c-0.391-0.391-0.391-1.024,0-1.414l1.414-1.414c0.391-0.391,1.024-0.391,1.414,0L22,27.758l10.879-10.879c0.391-0.391,1.024-0.391,1.414,0l1.414,1.414c0.391,0.391,0.391,1.024,0,1.414l-13,13C22.317,33.098,21.683,33.098,21.293,32.707z"
                 />
               </svg>
-              <p className="text-base font-semibold text-green-600 dark:text-green-300">
+              <p className="text-base font-semibold text-[#FFF8C6] dark:text-green-300">
                 Done!
               </p>
             </>
@@ -108,8 +108,8 @@ export function Input({
                   d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                 />
               </svg>
-              <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-medium">Click to upload</span> or drag and
+              <p className="text-center font-thin text-white dark:text-white">
+                <span className="font-thin">Click to upload</span> or drag and
                 drop your file
               </p>
             </>
