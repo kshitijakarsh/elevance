@@ -41,8 +41,13 @@ Your response:
       contents: [{ role: "user", parts: [{ text: prompt }] }],
     });
 
-    const text = await aiResponse.text;
-    if (!text) throw new Error("No response text from Gemini.");
+    
+
+    const text = JSON.stringify(aiResponse);
+
+    const cleanText = text.replace(/```json\n?|\n?```/g, "").trim();
+
+    if (!cleanText) throw new Error("No response text from Gemini.");
 
     res.status(200).json({ success: true, result: text });
   } catch (error) {
