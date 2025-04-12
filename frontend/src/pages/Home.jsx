@@ -3,11 +3,17 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../components/Input";
 
+import toast, { Toaster } from 'react-hot-toast';
+
+
 function Home() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [interviewOptionsVisible, setInterviewOptionsVisible] = useState(false);
+
+  const notify = () => toast('Please upload resume first.');
+
 
   const navigate = useNavigate();
 
@@ -26,12 +32,12 @@ function Home() {
   }
 
   async function handleResumeUpload() {
-    setUploaded(false);
-    setLoading(true);
-    if (!file) {
-      alert("Please select a PDF file first.");
+    if (!uploaded) {
+      toast.error("Please select PDF first.");
       return;
     }
+    toast.success("Resume Uploaded Successfully")
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -57,7 +63,6 @@ function Home() {
         localStorage.setItem("matchedJobs", JSON.stringify(allJobs));
       }
 
-      setUploaded(true);
       setInterviewOptionsVisible(true);
     } catch (error) {
       console.error("Error uploading resume:", error);
@@ -108,6 +113,7 @@ function Home() {
                 >
                   {loading ? "Processing..." : "Upload Resume"}
                 </button>
+                <Toaster/>
               </div>
             </>
           )}
