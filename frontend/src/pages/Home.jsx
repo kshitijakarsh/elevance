@@ -83,7 +83,11 @@ function Home() {
         <div className="mt-20 max-w-2xl mx-auto mb-8">
           {!loading && (
             <h1 className="text-3xl font-special font-thin text-center text-[#EBEBBA] mb-8">
-              {uploaded ? "Resume Uploaded" : "Upload Your Resume"}
+              {interviewOptionsVisible
+                ? "Choose Interview Type"
+                : uploaded
+                ? "Resume Loaded"
+                : "Upload Your Resume"}
             </h1>
           )}
 
@@ -110,9 +114,6 @@ function Home() {
 
           {interviewOptionsVisible && (
             <div className="mt-10 text-center">
-              <h2 className="text-xl font-poppins text-white mb-4">
-                Choose Interview Type :
-              </h2>
               <div className="flex font-poppins flex-wrap justify-center gap-4 mb-6">
                 {[
                   { label: "Behavioral", path: "behavioral" },
