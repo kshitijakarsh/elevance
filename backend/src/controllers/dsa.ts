@@ -43,7 +43,7 @@ Your response:
 
     
 
-    const text = JSON.stringify(aiResponse);
+    const text = JSON.stringify(aiResponse.text);
 
     const cleanText = text.replace(/```json\n?|\n?```/g, "").trim();
 

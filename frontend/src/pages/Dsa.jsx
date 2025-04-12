@@ -85,8 +85,8 @@ function Dsa() {
         </p>
       </div>
 
-      <div className="hidden lg:flex h-screen bg-[#0e0e0e] text-white overflow-hidden relative pr-5 pl-5 transition-all duration-500 ease-in-out transform">
-        <div className="w-1/2 p-6 rounded-t-3xl overflow-y-auto bg-[#1e1e1e] border-r border-gray-700">
+      <div className=" hidden lg:flex h-screen bg-black text-white overflow-hidden relative pr-5 pl-5 transition-all duration-500 ease-in-out transform">
+        <div className="w-1/2 mt-6 p-6 rounded-t-3xl overflow-y-auto bg-black border-r border-gray-700">
           <h1 className="text-2xl font-special text-[#EBEBBA] mb-4">
             DSA Challenge
           </h1>
