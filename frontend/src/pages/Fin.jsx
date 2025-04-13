@@ -82,7 +82,7 @@ function Fin() {
       />
 
       <div className="mt-6 ml-6 bg-[#1a1a1a] p-6 rounded-xl shadow-lg max-w-xl">
-        <p className="font-semibold text-purple-400 mb-2">AI:</p>
+        <p className="font-semibold text-[#EBEBBA] mb-2">AI:</p>
         <p className="text-gray-200">{question}</p>
       </div>
     </div>

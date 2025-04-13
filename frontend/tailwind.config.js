@@ -17,7 +17,7 @@ export default {
         limey: '#F3FF8C',
         deepPurple: '#5D00B5', 
       },
-    },
+    }
   },
   plugins: [flowbiteReact],
 }
