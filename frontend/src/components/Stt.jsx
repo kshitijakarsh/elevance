@@ -32,7 +32,7 @@ function Stt({ setTranscript, recording, setRecording }) {
     <div className="flex flex-col sm:flex-row items-center gap-4">
       <button
         onClick={toggleRecording}
-        className={`flex items-center justify-center px-5 py-3 rounded-lg font-medium transition-all duration-200 w-full sm:w-auto ${
+        className={`flex items-center justify-center px-5 py-3 rounded-lg font-poppins transition-all duration-200 w-full sm:w-auto ${
           recording
             ? "bg-gray-900 text-red-400 border border-red-900 hover:bg-gray-800"
             : "bg-[#EBEBBA] text-black hover:bg-white"
@@ -66,7 +66,7 @@ function Stt({ setTranscript, recording, setRecording }) {
 
       <button
         onClick={resetTranscript}
-        className="flex items-center justify-center px-5 py-3 rounded-lg font-medium bg-black border border-gray-800 text-gray-300 hover:text-white hover:border-gray-700 transition-all duration-200 w-full sm:w-auto"
+        className="flex items-center justify-center px-5 py-3 rounded-lg font-poppins bg-black border border-gray-800 text-gray-300 hover:text-white hover:border-gray-700 transition-all duration-200 w-full sm:w-auto"
       >
         <svg
           className="w-5 h-5 mr-2"
@@ -91,7 +91,7 @@ function Stt({ setTranscript, recording, setRecording }) {
             listening ? "bg-green-500" : "bg-gray-600"
           }`}
         ></div>
-        <span className="text-xs text-gray-400">
+        <span className="text-xs text-gray-400 font-poppins">
           Mic: {listening ? "On" : "Off"}
         </span>
       </div>

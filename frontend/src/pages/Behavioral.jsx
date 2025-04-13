@@ -92,11 +92,11 @@ function Behavioral() {
             <div className="w-full bg-black border border-gray-800 rounded-lg p-5 shadow-lg">
               <div className="flex items-center mb-3">
                 <div className="w-2 h-2 rounded-full bg-[#EBEBBA] mr-2 animate-pulse"></div>
-                <p className="text-[#EBEBBA] text-sm font-medium">
+                <p className="text-[#EBEBBA] text-sm font-poppins">
                   AI Response
                 </p>
               </div>
-              <p className="text-gray-300">
+              <p className="text-gray-300 font-poppins">
                 {question || "Waiting for your response..."}
               </p>
             </div>
@@ -134,18 +134,18 @@ function Behavioral() {
                     d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
                   ></path>
                 </svg>
-                <p className="text-[#EBEBBA] text-sm font-medium">Transcript</p>
+                <p className="text-[#EBEBBA] text-sm font-poppins">Transcript</p>
               </div>
 
               <div className="h-32 overflow-y-auto">
-                <p className="text-gray-300 whitespace-pre-wrap">
+                <p className="text-gray-300 font-poppins whitespace-pre-wrap">
                   {transcript || "Speak something..."}
                 </p>
               </div>
 
               <div className="mt-4 flex justify-end">
                 <div
-                  className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  className={`px-3 py-1 rounded-full text-xs font-poppins ${
                     recording
                       ? "bg-red-900 text-red-200"
                       : "bg-gray-800 text-gray-400"
@@ -157,7 +157,7 @@ function Behavioral() {
             </div>
 
             <div className="w-full bg-black border border-gray-800 rounded-lg p-4 mt-auto">
-              <p className="text-gray-400 text-sm text-center">
+              <p className="text-gray-400 text-sm text-center font-poppins">
                 Speak clearly into your microphone to interact with the AI
                 assistant
               </p>
