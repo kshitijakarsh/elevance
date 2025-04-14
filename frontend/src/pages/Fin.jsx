@@ -1,6 +1,7 @@
-import Stt from "../components/Stt";
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Stt from "../components/Stt";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 function Fin() {
   const [transcript, setTranscript] = useState("");
@@ -73,17 +74,98 @@ function Fin() {
   }, [recording, transcript]);
 
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-10">
-      <Stt
-        transcript={transcript}
-        setTranscript={setTranscript}
-        recording={recording}
-        setRecording={setRecording}
-      />
+    <div className="min-h-screen bg-black text-white py-12 px-6">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
+        {/* AI Assistant */}
+        <div className="w-full md:w-1/2 flex flex-col border border-gray-800 rounded-lg overflow-hidden transition-all duration-300 hover:border-[#EBEBBA]">
+          <div className="px-6 py-4 border-b border-gray-800">
+            <h2 className="text-[#EBEBBA] text-lg font-special">AI Assistant</h2>
+          </div>
 
-      <div className="mt-6 ml-6 bg-[#1a1a1a] p-6 rounded-xl shadow-lg max-w-xl">
-        <p className="font-semibold text-[#EBEBBA] mb-2">AI:</p>
-        <p className="text-gray-200">{question}</p>
+          <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
+            <DotLottieReact
+              src="https://lottie.host/4a5b7e2a-4a2d-47d5-9a7d-7b21d1c129d9/ca1KBW7Zoa.lottie"
+              loop
+              autoplay
+              className="w-64 h-64 md:w-80 md:h-80"
+            />
+
+            <div className="w-full bg-black border border-gray-800 rounded-lg p-5 shadow-lg">
+              <div className="flex items-center mb-3">
+                <div className="w-2 h-2 rounded-full bg-[#EBEBBA] mr-2 animate-pulse"></div>
+                <p className="text-[#EBEBBA] text-sm font-poppins">
+                  AI Response
+                </p>
+              </div>
+              <p className="text-gray-300 font-poppins">
+                {question || "Waiting for your response..."}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Voice Input */}
+        <div className="w-full md:w-1/2 flex flex-col border border-gray-800 rounded-lg overflow-hidden transition-all duration-300 hover:border-[#EBEBBA]">
+          <div className="px-6 py-4 border-b border-gray-800">
+            <h2 className="text-[#EBEBBA] text-lg font-special">Voice Input</h2>
+          </div>
+
+          <div className="flex-1 flex flex-col items-center p-6 gap-8">
+            <div className="w-full flex justify-center mt-6">
+              <Stt
+                transcript={transcript}
+                setTranscript={setTranscript}
+                recording={recording}
+                setRecording={setRecording}
+              />
+            </div>
+
+            <div className="w-full border border-gray-800 rounded-lg p-5 bg-black shadow-lg">
+              <div className="flex items-center mb-3">
+                <svg
+                  className="w-4 h-4 text-[#EBEBBA] mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                  ></path>
+                </svg>
+                <p className="text-[#EBEBBA] text-sm font-poppins">Transcript</p>
+              </div>
+
+              <div className="h-32 overflow-y-auto">
+                <p className="text-gray-300 font-poppins whitespace-pre-wrap">
+                  {transcript || "Speak something..."}
+                </p>
+              </div>
+
+              <div className="mt-4 flex justify-end">
+                <div
+                  className={`px-3 py-1 rounded-full text-xs font-poppins ${
+                    recording
+                      ? "bg-red-900 text-red-200"
+                      : "bg-gray-800 text-gray-400"
+                  }`}
+                >
+                  {recording ? "Recording..." : "Ready"}
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full bg-black border border-gray-800 rounded-lg p-4 mt-auto">
+              <p className="text-gray-400 text-sm text-center font-poppins">
+                Speak clearly into your microphone to interact with the AI
+                assistant
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
