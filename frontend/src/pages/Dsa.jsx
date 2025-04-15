@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Editor from "@monaco-editor/react";
 import { LoaderCircle, Code, Award, RefreshCw } from "lucide-react";
+import Stt from "../components/Stt";
 
 function Dsa() {
+  const [transcript, setTranscript] = useState("");
+  const [recording, setRecording] = useState(false);
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(true);
   const [code, setCode] = useState("// Start coding here...");
@@ -12,6 +15,7 @@ function Dsa() {
   const [evaluation, setEvaluation] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [coding, setCoding] = useState(false);
 
   const fetchQuestion = async () => {
     try {
@@ -73,9 +77,7 @@ function Dsa() {
             className="animate-spin text-[#EBEBBA] mx-auto"
             size={48}
           />
-          <p className="mt-4 text-gray-300">
-            Generating your DSA challenge...
-          </p>
+          <p className="mt-4 text-gray-300">Generating your DSA challenge...</p>
         </div>
       </div>
     );
@@ -97,7 +99,7 @@ function Dsa() {
                 DSA Challenge
               </h1>
             </div>
-            <button 
+            <button
               onClick={fetchQuestion}
               className="flex items-center text-gray-400 hover:text-[#EBEBBA] transition-colors duration-200"
             >
@@ -105,7 +107,7 @@ function Dsa() {
               <span className="text-sm">New Problem</span>
             </button>
           </div>
-          
+
           <div className="flex-1 overflow-y-auto border border-gray-800 rounded-lg p-6 mb-6 bg-black hover:border-gray-700 transition-all duration-300">
             <div className="prose prose-invert max-w-none whitespace-pre-wrap text-gray-300">
               {question}
@@ -113,60 +115,155 @@ function Dsa() {
           </div>
         </div>
 
-        <div className="w-1/2 pl-4 flex flex-col">
-          <div className="flex items-center justify-between mb-4 pt-6">
-            <h2 className="text-xl font-bold text-white">Solution</h2>
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="bg-black text-gray-300 py-2 px-3 rounded-md border border-gray-800 hover:border-gray-700 focus:outline-none focus:border-[#EBEBBA] transition-all duration-200"
-            >
-              {supportedLanguages.map((lang) => (
-                <option key={lang.value} value={lang.value}>
-                  {lang.label}
-                </option>
-              ))}
-            </select>
-          </div>
+        {coding ? (
+          <>
+            <div className="w-1/2 pl-4 flex flex-col">
+              <div className="flex items-center justify-between mb-4 pt-6">
+                <h2 className="text-xl font-bold text-white">Solution</h2>
 
-          <div className="flex-1 overflow-hidden border border-gray-800 rounded-lg mb-4 hover:border-gray-700 transition-all duration-300">
-            <Editor
-              height="100%"
-              language={language}
-              theme="vs-dark"
-              value={code}
-              onChange={(value) => setCode(value || "")}
-              options={{
-                fontSize: 14,
-                minimap: { enabled: false },
-                padding: { top: 16 },
-                scrollBeyondLastLine: false,
-                folding: true,
-                lineNumbers: "on",
-                renderLineHighlight: "all",
-              }}
-            />
-          </div>
+                <div>
+                  <button
+                    className="border-solid border-2 m-4 p-2 border-gray-800 rounded-lg justify-between text-[#EBEBBA]"
+                    onClick={() => {
+                      setCoding(false);
+                    }}
+                  >
+                    Text Box
+                  </button>
+                </div>
 
-          <div className="flex justify-end mb-6">
-            <button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className={`flex items-center bg-[#EBEBBA] text-black font-medium py-2 px-6 rounded-lg hover:bg-white transition-colors duration-200 ${
-                isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-              }`}
-            >
-              {isSubmitting ? (
-                <>
-                  <LoaderCircle className="animate-spin mr-2" size={16} />
-                  Evaluating...
-                </>
-              ) : (
-                "Submit Solution"
-              )}
-            </button>
-          </div>
-        </div>
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="bg-black text-gray-300 py-2 px-3 rounded-md border border-gray-800 hover:border-gray-700 focus:outline-none focus:border-[#EBEBBA] transition-all duration-200"
+                >
+                  {supportedLanguages.map((lang) => (
+                    <option key={lang.value} value={lang.value}>
+                      {lang.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex-1 overflow-hidden border border-gray-800 rounded-lg mb-4 hover:border-gray-700 transition-all duration-300">
+                <Editor
+                  height="100%"
+                  language={language}
+                  theme="vs-dark"
+                  value={code}
+                  onChange={(value) => setCode(value || "")}
+                  options={{
+                    fontSize: 14,
+                    minimap: { enabled: false },
+                    padding: { top: 16 },
+                    scrollBeyondLastLine: false,
+                    folding: true,
+                    lineNumbers: "on",
+                    renderLineHighlight: "all",
+                  }}
+                />
+              </div>
+
+              <div className="flex justify-end mb-6">
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className={`flex items-center bg-[#EBEBBA] text-black font-medium py-2 px-6 rounded-lg hover:bg-white transition-colors duration-200 ${
+                    isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <LoaderCircle className="animate-spin mr-2" size={16} />
+                      Evaluating...
+                    </>
+                  ) : (
+                    "Submit Solution"
+                  )}
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="w-full md:w-1/2 flex flex-col border border-gray-800 rounded-lg overflow-hidden transition-all duration-300 hover:border-[#EBEBBA]">
+              <div className="px-6 py-4 border-b border-gray-800">
+                <h2 className="text-[#EBEBBA] text-lg font-special">
+                  Voice Input
+                </h2>
+              </div>
+
+              <div className="flex-1 flex flex-col items-center p-6 gap-8">
+                <div className="w-full flex justify-center mt-6">
+                  <Stt
+                    transcript={transcript}
+                    setTranscript={setTranscript}
+                    recording={recording}
+                    setRecording={setRecording}
+                  />
+                </div>
+
+                <div className="w-full border border-gray-800 rounded-lg p-5 bg-black shadow-lg">
+                  <div className="flex items-center mb-3">
+                    <svg
+                      className="w-4 h-4 text-[#EBEBBA] mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                      ></path>
+                    </svg>
+                    <p className="text-[#EBEBBA] text-sm font-poppins">
+                      Transcript
+                    </p>
+                  </div>
+
+                  <div className="h-32 overflow-y-auto">
+                    <p className="text-gray-300 font-poppins whitespace-pre-wrap">
+                      {transcript || "Speak something..."}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 flex justify-end">
+                    <div
+                      className={`px-3 py-1 rounded-full text-xs font-poppins ${
+                        recording
+                          ? "bg-red-900 text-red-200"
+                          : "bg-gray-800 text-gray-400"
+                      }`}
+                    >
+                      {recording ? "Recording..." : "Ready"}
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <button
+                    className="border-solid border-2 m-4 p-2 border-gray-800 rounded-lg text-[#EBEBBA]"
+                    onClick={() => {
+                      setCoding(true);
+                    }}
+                  >
+                    Code Editor
+                  </button>
+                </div>
+
+                <div className="w-full bg-black border border-gray-800 rounded-lg p-4 mt-auto">
+                  <p className="text-gray-400 text-sm text-center font-poppins">
+                    Speak clearly into your microphone to interact with the AI
+                    assistant
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
 
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
@@ -177,7 +274,7 @@ function Dsa() {
                   Solution Evaluation
                 </h2>
               </div>
-              
+
               <div className="p-6 overflow-y-auto text-gray-300 flex-1">
                 <pre className="whitespace-pre-wrap">{evaluation}</pre>
               </div>
