@@ -72,7 +72,7 @@ function Behavioral() {
 
       sendToBackend();
     }
-  }, [recording, transcript]);
+  }, [recording]);
 
   return (
     <div className="min-h-screen bg-black text-white py-12 px-6">
