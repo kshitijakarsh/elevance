@@ -16,6 +16,7 @@ function Dsa() {
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [coding, setCoding] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const fetchQuestion = async () => {
     try {
@@ -39,6 +40,29 @@ function Dsa() {
   useEffect(() => {
     fetchQuestion();
   }, []);
+
+  useEffect(() => {
+    if (!recording && transcript) {
+      const evaluateAnswer = async () => {
+        try {
+          const response = await axios.post(
+            "https://elevance.onrender.com/interview/eval",
+            {
+              question,
+              answer: transcript,
+              resumeText,
+            }
+          );
+          setEvaluation(response.data.result);
+          setShowModal(true);
+        } catch (error) {
+          console.error("Error sending to backend:", error);
+        }
+      };
+
+      evaluateAnswer();
+    }
+  }, [recording, transcript]);
 
   const handleSubmit = async () => {
     try {
@@ -91,6 +115,7 @@ function Dsa() {
         </p>
       </div>
 
+
       <div className="hidden lg:flex h-screen bg-black text-white overflow-hidden relative px-6">
         <div className="w-1/2 pr-4 flex flex-col">
           <div className="flex items-center justify-between mb-4 pt-6">
@@ -119,30 +144,44 @@ function Dsa() {
           <>
             <div className="w-1/2 pl-4 flex flex-col">
               <div className="flex items-center justify-between mb-4 pt-6">
-                <h2 className="text-xl font-bold text-white">Solution</h2>
+                <h2 className="text-xl font-special text-white">Solution</h2>
 
-                <div>
+                <div className="flex items-center gap-4">
                   <button
-                    className="border-solid border-2 m-4 p-2 border-gray-800 rounded-lg justify-between text-[#EBEBBA]"
+                    className="border border-gray-800 px-4 py-2 font-poppins rounded-lg text-[#EBEBBA] hover:border-[#EBEBBA] transition-all duration-200 flex items-center"
                     onClick={() => {
                       setCoding(false);
                     }}
                   >
+                    <svg
+                      className="w-4 h-4 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 6h16M4 12h16M4 18h7"
+                      ></path>
+                    </svg>
                     Text Box
                   </button>
-                </div>
 
-                <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
-                  className="bg-black text-gray-300 py-2 px-3 rounded-md border border-gray-800 hover:border-gray-700 focus:outline-none focus:border-[#EBEBBA] transition-all duration-200"
-                >
-                  {supportedLanguages.map((lang) => (
-                    <option key={lang.value} value={lang.value}>
-                      {lang.label}
-                    </option>
-                  ))}
-                </select>
+                  <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    className="bg-black font-poppins text-gray-300 py-2 px-3 rounded-lg border border-gray-800 hover:border-gray-700 focus:outline-none focus:border-[#EBEBBA] transition-all duration-200"
+                  >
+                    {supportedLanguages.map((lang) => (
+                      <option key={lang.value} value={lang.value}>
+                        {lang.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               <div className="flex-1 overflow-hidden border border-gray-800 rounded-lg mb-4 hover:border-gray-700 transition-all duration-300">
@@ -187,10 +226,33 @@ function Dsa() {
         ) : (
           <>
             <div className="w-full md:w-1/2 flex flex-col border border-gray-800 rounded-lg overflow-hidden transition-all duration-300 hover:border-[#EBEBBA]">
-              <div className="px-6 py-4 border-b border-gray-800">
+              <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
                 <h2 className="text-[#EBEBBA] text-lg font-special">
                   Voice Input
                 </h2>
+
+                <button
+                  className="border border-gray-800 px-4 py-2 rounded-lg text-[#EBEBBA] hover:border-[#EBEBBA] transition-all duration-200 flex items-center font-poppins"
+                  onClick={() => {
+                    setCoding(true);
+                  }}
+                >
+                  <svg
+                    className="w-4 h-4 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                    ></path>
+                  </svg>
+                  Code Editor
+                </button>
               </div>
 
               <div className="flex-1 flex flex-col items-center p-6 gap-8">
@@ -224,10 +286,69 @@ function Dsa() {
                     </p>
                   </div>
 
-                  <div className="h-32 overflow-y-auto">
-                    <p className="text-gray-300 font-poppins whitespace-pre-wrap">
-                      {transcript || "Speak something..."}
-                    </p>
+                  <div className="relativeoverflow-hidden hover:border-gray-700 transition-all duration-200">
+                    {editing ? (
+                      <div className="relative">
+                        <textarea
+                          value={transcript}
+                          onChange={(e) => setTranscript(e.target.value)}
+                          className="w-full h-32 p-4 bg-black text-gray-300 outline-none resize-none"
+                          autoFocus
+                          placeholder="Enter your text here..."
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 flex justify-end p-2 bg-gradient-to-t from-black to-transparent">
+                          <button
+                            onClick={() => setEditing(false)}
+                            className="bg-[#EBEBBA] text-black px-4 py-1.5 rounded-md text-sm font-medium hover:bg-white transition-colors duration-200 flex items-center"
+                          >
+                            <svg
+                              className="w-3.5 h-3.5 mr-1.5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M5 13l4 4L19 7"
+                              ></path>
+                            </svg>
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => setEditing(true)}
+                        className="h-32 p-4 text-gray-300 whitespace-pre-wrap cursor-pointer overflow-y-auto hover:bg-gray-900/30 transition-colors duration-200"
+                      >
+                        {transcript ? (
+                          transcript
+                        ) : (
+                          <span className="text-gray-500 italic">
+                            Speak something or click to edit...
+                          </span>
+                        )}
+                        <div className="absolute bottom-2 right-2 opacity-40 hover:opacity-100 transition-opacity duration-200">
+                          <svg
+                            className="w-4 h-4 text-gray-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                            ></path>
+                          </svg>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="mt-4 flex justify-end">
@@ -241,17 +362,6 @@ function Dsa() {
                       {recording ? "Recording..." : "Ready"}
                     </div>
                   </div>
-                </div>
-
-                <div>
-                  <button
-                    className="border-solid border-2 m-4 p-2 border-gray-800 rounded-lg text-[#EBEBBA]"
-                    onClick={() => {
-                      setCoding(true);
-                    }}
-                  >
-                    Code Editor
-                  </button>
                 </div>
 
                 <div className="w-full bg-black border border-gray-800 rounded-lg p-4 mt-auto">

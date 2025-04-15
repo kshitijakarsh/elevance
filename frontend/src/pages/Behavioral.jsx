@@ -9,6 +9,7 @@ function Behavioral() {
   const [aiResponse, setAiResponse] = useState("");
   const [availableVoices, setAvailableVoices] = useState([]);
   const [question, setQuestion] = useState("");
+  const [editing, setEditing] = useState(false);
 
   const resumeText = localStorage.getItem("resumeText");
 
@@ -78,7 +79,9 @@ function Behavioral() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
         <div className="w-full md:w-1/2 flex flex-col border border-gray-800 rounded-lg overflow-hidden transition-all duration-300 hover:border-[#EBEBBA]">
           <div className="px-6 py-4 border-b border-gray-800">
-            <h2 className="text-[#EBEBBA] text-lg font-special">AI Assistant</h2>
+            <h2 className="text-[#EBEBBA] text-lg font-special">
+              AI Assistant
+            </h2>
           </div>
 
           <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
@@ -134,13 +137,74 @@ function Behavioral() {
                     d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
                   ></path>
                 </svg>
-                <p className="text-[#EBEBBA] text-sm font-poppins">Transcript</p>
+                <p className="text-[#EBEBBA] text-sm font-poppins">
+                  Transcript
+                </p>
               </div>
 
-              <div className="h-32 overflow-y-auto">
-                <p className="text-gray-300 font-poppins whitespace-pre-wrap">
-                  {transcript || "Speak something..."}
-                </p>
+              <div className="relativeoverflow-hidden hover:border-gray-700 transition-all duration-200">
+                {editing ? (
+                  <div className="relative">
+                    <textarea
+                      value={transcript}
+                      onChange={(e) => setTranscript(e.target.value)}
+                      className="w-full h-32 p-4 bg-black text-gray-300 outline-none resize-none"
+                      autoFocus
+                      placeholder="Enter your text here..."
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 flex justify-end p-2 bg-gradient-to-t from-black to-transparent">
+                      <button
+                        onClick={() => setEditing(false)}
+                        className="bg-[#EBEBBA] text-black px-4 py-1.5 rounded-md text-sm font-medium hover:bg-white transition-colors duration-200 flex items-center"
+                      >
+                        <svg
+                          className="w-3.5 h-3.5 mr-1.5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg>
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => setEditing(true)}
+                    className="h-32 p-4 text-gray-300 whitespace-pre-wrap cursor-pointer overflow-y-auto hover:bg-gray-900/30 transition-colors duration-200"
+                  >
+                    {transcript ? (
+                      transcript
+                    ) : (
+                      <span className="text-gray-500 italic">
+                        Speak something or click to edit...
+                      </span>
+                    )}
+                    <div className="absolute bottom-2 right-2 opacity-40 hover:opacity-100 transition-opacity duration-200">
+                      <svg
+                        className="w-4 h-4 text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="mt-4 flex justify-end">

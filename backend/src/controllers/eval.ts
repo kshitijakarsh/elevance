@@ -59,9 +59,7 @@ ${question}
 """
 
 **Candidate’s Code:**
-\`\`\`javascript
 ${answer}
-\`\`\`
     `;
 
     const aiResponse = await ai.models.generateContent({
