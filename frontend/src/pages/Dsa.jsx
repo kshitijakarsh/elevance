@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Editor from "@monaco-editor/react";
-import { LoaderCircle, Code, Award, RefreshCw } from "lucide-react";
+import { LoaderCircle, Award, RefreshCw } from "lucide-react";
 import Stt from "../components/Stt";
 
 function Dsa() {

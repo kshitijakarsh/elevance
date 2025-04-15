@@ -28,6 +28,7 @@ Your role is to:
 - Avoid labeling sections like "Follow-up" or "Response".
 - Keep it plain, direct, and natural.
 
+
 Resume:
 """
 ${resumeText}
