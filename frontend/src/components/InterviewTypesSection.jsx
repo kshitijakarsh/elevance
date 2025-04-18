@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const InterviewTypesSection = () => {
+const InterviewTypesSection = ({ onScrollToLanding }) => {
+
   const interviewTypes = [
     {
       title: "Behavioral Interviews",
@@ -16,7 +18,6 @@ const InterviewTypesSection = () => {
         </svg>
       ),
       color: "bg-gradient-to-br from-blue-600/80 to-blue-500/60",
-      learnMoreColor: "text-[#EBEBBA]",
     },
     {
       title: "DSA / Coding Challenges",
@@ -32,7 +33,6 @@ const InterviewTypesSection = () => {
         </svg>
       ),
       color: "bg-gradient-to-br from-green-600/80 to-green-500/60",
-      learnMoreColor: "text-[#EBEBBA]",
     },
     {
       title: "System Design",
@@ -52,7 +52,6 @@ const InterviewTypesSection = () => {
         </svg>
       ),
       color: "bg-gradient-to-br from-purple-600/80 to-purple-500/60",
-      learnMoreColor: "text-[#EBEBBA]",
     },
     {
       title: "Technical Round",
@@ -72,49 +71,39 @@ const InterviewTypesSection = () => {
         </svg>
       ),
       color: "bg-gradient-to-br from-amber-600/80 to-amber-500/60",
-      learnMoreColor: "text-[#EBEBBA]",
     },
   ];
 
   return (
-    <div className="relative min-h-screen py-24 px-6 overflow-hidden">
+    <div className="relative py-24 px-6 lg:px-20 overflow-hidden bg-black">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-[#1f1f1f] to-[#082247] opacity-80"></div>
-
+        
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDAwIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMyMjIiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-20"></div>
-
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-black rounded-full mix-blend-screen filter blur-3xl opacity-10 animate-blob"></div>
-        <div className="absolute top-20 -right-20 w-80 h-80 bg-black rounded-full mix-blend-screen filter blur-3xl opacity-5 animate-blob animation-delay-2000"></div>
+        
+        <div className="absolute bottom-40 right-40 w-96 h-96 bg-[#082247] rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute -bottom-20 left-20 w-80 h-80 bg-[#EBEBBA] rounded-full mix-blend-screen filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="inline-block mb-4 px-4 py-1 text-sm border border-[#EBEBBA]/30 text-[#EBEBBA] rounded-full backdrop-filter backdrop-blur-sm bg-white/5">
-            Comprehensive Platform
-          </span>
+          <div className="inline-block mb-4 px-4 py-1 text-sm border border-[#EBEBBA]/30 text-[#EBEBBA] rounded-full backdrop-filter backdrop-blur-sm bg-white/5">
+            What We Offer
+          </div>
           <h2 className="text-4xl font-special leading-tight mb-4 text-[#EBEBBA]">
-            Practice Different Interview Types
+            Master Every Interview Format
           </h2>
+          <p className="text-[#d9d9a0] max-w-2xl mx-auto text-lg font-poppins">
+            Our AI-powered platform helps you prepare for all types of tech interviews with personalized practice sessions.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
           {interviewTypes.map((type, index) => (
             <div
               key={index}
-              className="backdrop-filter backdrop-blur-lg bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:border-white/20 group"
+              className="backdrop-filter backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:border-[#EBEBBA]/40 hover:shadow-2xl group"
             >
-              {/* Image area */}
-              <div className="h-48 overflow-hidden relative">
-                <img
-                  src={`/api/placeholder/600/300`}
-                  alt={`${type.title} illustration`}
-                  className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-all duration-500 scale-100 group-hover:scale-105"
-                />
-                {/* Semi-transparent overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-              </div>
-
-              {/* Content area */}
               <div className="p-6">
                 <div className="flex items-start gap-4">
                   <div
@@ -123,19 +112,18 @@ const InterviewTypesSection = () => {
                     {type.icon}
                   </div>
                   <div>
-                    <h3 className="font-special text-lg text-[#EBEBBA] group-hover:text-white transition-colors">
+                    <h3 className="font-special text-xl text-[#EBEBBA] group-hover:text-white transition-colors">
                       {type.title}
                     </h3>
-                    <p className="text-[#d9d9a0] text-sm mt-2 line-clamp-3">
+                    <p className="text-[#d9d9a0] mt-2 font-poppins">
                       {type.description}
                     </p>
-                    <a
-                      href="#"
-                      className={`${type.learnMoreColor} mt-3 inline-flex items-center text-sm group-hover:underline transition-all`}
+                    <button
+                      className="mt-4 px-4 py-2 font-poppins bg-transparent border border-[#EBEBBA]/40 text-[#EBEBBA] rounded-lg hover:bg-[#EBEBBA]/10 transition-all text-sm flex items-center gap-2 group-hover:border-[#EBEBBA]"
                     >
-                      Learn more
+                      Try Now
                       <svg
-                        className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"
+                        className="w-4 h-4 transition-transform group-hover:translate-x-1"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -147,12 +135,18 @@ const InterviewTypesSection = () => {
                           d="M14 5l7 7m0 0l-7 7m7-7H3"
                         ></path>
                       </svg>
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+        
+        <div className="mt-16 text-center">
+          <button className="px-8 py-3 bg-[#EBEBBA] text-black font-special rounded-lg hover:opacity-90 transition-all hover:shadow-lg hover:scale-[1.02] focus:outline-none" onClick={onScrollToLanding}>
+            Explore All Features
+          </button>
         </div>
       </div>
     </div>

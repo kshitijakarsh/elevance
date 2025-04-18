@@ -75,7 +75,7 @@ function Behavioral() {
   }, [recording]);
 
   return (
-    <div className="min-h-screen bg-black text-white py-12 px-6">
+    <div className="min-h-screen bg-black text-white py-32 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
         <div className="w-full md:w-1/2 flex flex-col border border-gray-800 rounded-lg overflow-hidden transition-all duration-300 hover:border-[#EBEBBA]">
           <div className="px-6 py-4 border-b border-gray-800">
@@ -187,22 +187,6 @@ function Behavioral() {
                         Speak something or click to edit...
                       </span>
                     )}
-                    <div className="absolute bottom-2 right-2 opacity-40 hover:opacity-100 transition-opacity duration-200">
-                      <svg
-                        className="w-4 h-4 text-gray-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                        ></path>
-                      </svg>
-                    </div>
                   </div>
                 )}
               </div>

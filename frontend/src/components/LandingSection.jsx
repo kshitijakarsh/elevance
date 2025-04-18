@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import axios from "axios";
 import { Input } from "./Input";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const LandingSection = () => {
+const LandingSection = forwardRef((props, ref) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
@@ -76,7 +76,7 @@ const LandingSection = () => {
   }
 
   return (
-    <div className="min-h-screen relative bg-black text-[#EBEBBA] flex flex-col lg:flex-row items-center justify-between px-6 lg:px-20 overflow-hidden">
+    <div ref={ref} className="min-h-screen relative bg-black text-[#EBEBBA] flex flex-col lg:flex-row items-center justify-between px-6 lg:px-20 overflow-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-[#1f1f1f] to-[#082247] opacity-80"></div>
         
@@ -124,6 +124,6 @@ const LandingSection = () => {
       <Toaster />
     </div>
   );
-};
+});
 
 export default LandingSection;

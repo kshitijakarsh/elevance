@@ -14,7 +14,7 @@ const Interview = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-black text-[#EBEBBA] flex items-center justify-center px-6 py-12 overflow-hidden">
+    <div className="min-h-screen relative bg-black text-[#EBEBBA] flex items-center justify-center px-6 py-36 overflow-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-[#1f1f1f] to-[#082247] opacity-80"></div>
 
